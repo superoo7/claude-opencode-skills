@@ -1,0 +1,23 @@
+{
+  "skill_name": "opencode-orchestrator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a Node.js Express app at /tmp/test-project. Add two things: (1) a /health endpoint that returns {status: 'ok'} and (2) a /version endpoint that returns {version: '1.0.0'}. Do both at the same time.",
+      "expected_output": "Claude should decompose the task into parallel OpenCode workers (or recognize these can be done by one worker), dispatch via `opencode run --agent build --dir /tmp/test-project`, and audit the result. Should NOT write the code directly.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use opencode to add a README.md and a .gitignore to /tmp/test-project",
+      "expected_output": "Claude should dispatch OpenCode worker(s) with --dir pointing to /tmp/test-project. Can be one worker (sequential) or two (parallel). Should not create the files itself.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to build a simple TypeScript utility library at /tmp/test-project with: (1) a math.ts file with add/subtract/multiply functions and (2) a string.ts file with capitalize/trim/truncate functions. Build both in parallel.",
+      "expected_output": "Claude should dispatch two parallel OpenCode workers — one for math.ts, one for string.ts — using Task subagents. Each worker gets --dir /tmp/test-project. Claude audits both outputs after completion.",
+      "files": []
+    }
+  ]
+}
