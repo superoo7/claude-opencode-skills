@@ -1,0 +1,23 @@
+{
+  "skill_name": "opencode-agent",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a /ping endpoint to the Express app at /tmp/test-project that returns {pong: true}. There are existing tests in test/app.test.js — make sure they still pass after your change.",
+      "expected_output": "Claude should explore the project structure, craft a self-contained OpenCode prompt, dispatch with --format json to capture the session ID, then run `npm test` to verify. Should NOT write code directly. Should report tests passing before declaring done.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "There is a failing test in /tmp/test-project — `npm test` shows `AssertionError: expected 0 to equal 1` in sum.test.js. Fix it.",
+      "expected_output": "Claude should read the failing test and the relevant source file, craft a targeted OpenCode prompt describing the exact failure, capture the session ID with --format json, then run `npm test` to verify the fix. If tests still fail, Claude should continue the session with -s <sessionID> and the specific remaining error message.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Implement a `formatCurrency(amount, currency)` utility function in /tmp/test-project/src/utils/currency.ts. Tests for it already exist in /tmp/test-project/src/utils/currency.test.ts but are currently failing.",
+      "expected_output": "Claude should read the existing test file to understand the expected behavior, write a self-contained OpenCode prompt that includes the function signature and acceptance criterion, capture the session ID with --format json, then run the tests. If the first pass does not pass all tests, Claude should use -s <sessionID> to continue the session with follow-up instructions targeting the specific failures. Claude should stop and escalate to the user after 2 failed follow-up attempts.",
+      "files": []
+    }
+  ]
+}

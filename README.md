@@ -4,7 +4,7 @@ Claude Code skills for [OpenCode](https://opencode.ai). Use Claude Pro as the or
 
 ## The story
 
-I have a Claude Pro subscription. I also built a home server: ASUS GX10 Ascend with an Nvidia Blackwell GPU, running Qwen3.5-35B-A3B via SGLang. The GPU sits there most of the day doing nothing useful.
+I have a Claude Pro subscription. I also built a home server: DGX Spark with 128GB unified memory, running Qwen3.5-122B-A10B via llama.cpp. The machine sits there most of the day doing nothing useful.
 
 The problem is that Claude Pro burns through context fast when doing repetitive code generation. Write a file, write another file, write tests, write more files. Claude is smart enough to do all of this, but it feels like a waste, and you hit limits. The obvious fix is Claude Max, but I already paid for the GPU. I don't want to pay again.
 
@@ -42,6 +42,26 @@ Orchestrates multiple OpenCode instances in parallel for large or complex coding
 - *"Refactor the backend and update the frontend to match"*
 - *"Use opencode to build this feature"*
 
+### `opencode-agent`
+
+Delegates a single coding task to OpenCode and iterates until tests pass.
+
+**What it does:**
+- Plans a self-contained prompt for OpenCode based on your codebase
+- Dispatches a single OpenCode worker and captures the session ID
+- Runs your test suite to verify the result
+- Continues the session with targeted follow-ups until all tests pass
+
+**When it triggers:**
+- Building a single feature or module
+- Fixing a bug or failing test
+- Implementing one function with existing tests to satisfy
+
+**Example prompts:**
+- *"Add a /login endpoint — the tests in test/auth.test.js should pass"*
+- *"Fix the failing test in sum.test.js"*
+- *"Implement formatCurrency() in src/utils/currency.ts, tests already exist"*
+
 ## Installation
 
 ### Prerequisites
@@ -63,16 +83,21 @@ Then symlink the skill(s) you want:
 
 ```bash
 ln -s ~/.claude/skills/claude-opencode-skills/opencode-orchestrator ~/.claude/skills/opencode-orchestrator
+ln -s ~/.claude/skills/claude-opencode-skills/opencode-agent ~/.claude/skills/opencode-agent
 ```
 
 ### Manual install (single skill file only)
 
-If you just want the `SKILL.md` without cloning the whole repo:
+If you just want the `SKILL.md` files without cloning the whole repo:
 
 ```bash
 mkdir -p ~/.claude/skills/opencode-orchestrator
 curl -o ~/.claude/skills/opencode-orchestrator/SKILL.md \
   https://raw.githubusercontent.com/superoo7/claude-opencode-skills/main/opencode-orchestrator/SKILL.md
+
+mkdir -p ~/.claude/skills/opencode-agent
+curl -o ~/.claude/skills/opencode-agent/SKILL.md \
+  https://raw.githubusercontent.com/superoo7/claude-opencode-skills/main/opencode-agent/SKILL.md
 ```
 
 The skill is available automatically in your next Claude Code session.
